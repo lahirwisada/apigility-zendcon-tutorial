@@ -3693,8 +3693,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev",
-                    "dev-develop": "2.6-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -3704,13 +3703,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "a component that aids in manipulating and validating » Uniform Resource Identifiers (URIs)",
-            "homepage": "https://github.com/zendframework/zend-uri",
-            "keywords": [
-                "uri",
-                "zf2"
+                "MIT"
             ],
             "time": "2015-09-03 19:06:11"
         },

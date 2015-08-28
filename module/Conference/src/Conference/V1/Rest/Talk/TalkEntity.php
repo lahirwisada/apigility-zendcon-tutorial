@@ -8,6 +8,7 @@ class TalkEntity
     public $abstract;
     public $day;
     public $start_time;
+    public $speakers;
 
     public function getArrayCopy()
     {
@@ -17,12 +18,13 @@ class TalkEntity
             'abstract'   => $this->abstract,
             'day'        => $this->day,
             'start_time' => $this->start_time,
+            'speakers'   => $this->speakers,
         );
     }
 
     public function exchangeArray(array $array)
     {
-        foreach (['id', 'title', 'abstract', 'day', 'start_time'] as $key) {
+        foreach (['id', 'title', 'abstract', 'day', 'start_time', 'speakers'] as $key) {
             if (array_key_exists($key, $array)) {
                 $this->{$key} = $array[$key];
             }

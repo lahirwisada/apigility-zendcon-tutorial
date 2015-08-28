@@ -7,6 +7,7 @@ class SpeakerEntity
     public $name;
     public $url;
     public $twitter;
+    public $talks;
 
     public function getArrayCopy()
     {
@@ -15,12 +16,13 @@ class SpeakerEntity
             'name'    => $this->name,
             'url'     => $this->url,
             'twitter' => $this->twitter,
+            'talks'   => $this->talks,
         );
     }
 
     public function exchangeArray(array $array)
     {
-        foreach (['id', 'name', 'url', 'twitter'] as $key) {
+        foreach (['id', 'name', 'url', 'twitter', 'talks'] as $key) {
             if (array_key_exists($key, $array)) {
                 $this->{$key} = $array[$key];
             }

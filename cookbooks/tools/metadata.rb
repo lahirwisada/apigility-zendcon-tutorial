@@ -1,0 +1,6 @@
+name                "tools"
+maintainer          "Julien Guittard"
+maintainer_email    "julien.guittard@me.com"
+license             "All Rights Reserved"
+description         "Configure miscellaneous tools"
+version             "0.1.0"

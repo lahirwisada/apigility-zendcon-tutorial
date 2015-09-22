@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+
+#ZEND-{2B2FCBED4B1F25511C2CA1587B53710E}
+Include "/usr/local/zend/etc/sites.d/zend-default-vhost-80.conf"
+#ZEND-{2B2FCBED4B1F25511C2CA1587B53710E}
+
+    ServerName apigiilty
+
+	DocumentRoot /vagrant/public
+
+	<Directory "/vagrant">
+        Options FollowSymLinks MultiViews
+        AllowOverride FileInfo
+        Require all granted
+	</Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+#ZEND-{255B5E0F387D9187468CC31474B4EC4C}
+IncludeOptional "/usr/local/zend/etc/sites.d/globals-*.conf"
+IncludeOptional "/usr/local/zend/etc/sites.d/vhost_*.conf"

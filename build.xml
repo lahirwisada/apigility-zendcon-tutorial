@@ -1,0 +1,33 @@
+<project name="apigility" default="default" basedir=".">
+    <available file="build.properties" property="file_prop_exists" type="file" />
+    <if>
+        <equals arg1="${file_prop_exists}" arg2="true" />
+        <then>
+            <!-- parse the properties files -->
+            <property file="build.properties"/>
+        </then>
+    </if>
+    <target name="default" description="The default target to list targets">
+        <exec command="phing -l" outputProperty="phing_targets"/>
+        <echo>Please select a target.</echo>
+        <echo>${phing_targets}</echo>
+    </target>
+
+    <target name="clean" description="Cleaning up the application">
+        <delete>
+            <fileset dir="${project.basedir}/data/cache">
+                <include name="*.php" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="install-dependencies" depends="clean">
+        <composer command="install -n" composer="${composer.bin}" />
+    </target>
+
+    <target name="development" depends="install-dependencies">
+        <exec dir="${project.basedir}" command="./${ag.bin} development enable" passthru="true" />
+    </target>
+
+    <target name="init" depends="development"/>
+</project>

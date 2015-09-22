@@ -1,34 +1,42 @@
 # Apigility Workshop
-## at PHP Summer Camp 2015 - Rovinj (Croazia)
+## at ZendCon 2015 - Las Vegas (NV)
 
 This is the hands-on part of the *Develop RESTful API in PHP using Apigility*
-workshop presented by [Enrico Zimuel](http://www.zimuel.it) at the
-[PHP Summer Camp 2015](http://2015.phpsummercamp.com/) conference in Rovinj
-(Croazia).
+workshop presented by [Matthew Weier O'Phinney](https://mwop.net) and [Julien Guittard](http://julien.guittard.io) at the
+[ZendCon 2015](http://zendcon.com/) conference in Las Vegasj
+(NV).
 
 The slides of the workshop are reported [here](http://www.zimuel.it/slides/phpsummer2015)
 
+Prerequisties
+---
+- Install the latest version of [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+- Install the latest version of [Vagrant](https://www.vagrantup.com/downloads.html)
+- Set **apigility** to point to **192.168.33.10** in your hosts file
+
+
 ## Installation
 
-You can install the Apigility workshop using composer:
+CD to your project folder and launch Vagrant: 
 
-```
-php composer.phar install
-```
-
-To enable the Apigility UI you need to execute the following command:
-
-```
-php public/index.php development enable
+```sh 
+vagrant up
 ```
 
-You can finally execute the Apigility UI running this command:
+Once box is setup and provisioned, login in ssh:
 
-```
-php -S 0.0.0.0:8888 -t public public/index.php
+```sh 
+vagrant ssh
 ```
 
-Open your browser at [http://localhost:8888](http://localhost:8888) and start to
+Your project folder is synchronised with **/vagrant** folder in the virtual box.
+CD to this folder and launch Phing:
+
+```sh 
+cd /vagrant && phing init
+```
+
+Open your browser at [http://apigility](http://apigility) and start to
 use Apigility!
 
 The first exercise of the workshop is reported [here](http://www.zimuel.it/slides/phpsummer2015/#/26).

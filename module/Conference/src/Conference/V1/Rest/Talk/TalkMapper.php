@@ -33,7 +33,7 @@ class TalkMapper
         } catch (Exception $e) {
             return false;
         }
-        $rowset = $this->table->select(array('id' => $this->table->lastInsertValue));
+        $rowset = $this->table->select(['id' => $this->table->lastInsertValue]);
         return $rowset->current();
     }
 

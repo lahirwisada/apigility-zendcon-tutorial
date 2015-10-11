@@ -2,9 +2,7 @@
 namespace Conference\V1\Rest\Speaker;
 
 use Exception;
-use Traversable;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Adapter\DbTableGateway;
 
 class SpeakerMapper

@@ -1,6 +1,7 @@
 <?php
 namespace Conference\V1\Rest\Speaker;
 
+use Traversable;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
@@ -31,7 +32,7 @@ class SpeakerResource extends AbstractResourceListener
     {
         $data   = $this->convertDataToArray($data);
         $result = $this->mapper->addSpeaker($data);
-        if (!$result) {
+        if (! $result) {
             return new ApiProblem(422, 'I cannot create a new speaker');
         }
         return $result;

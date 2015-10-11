@@ -92,7 +92,7 @@ class TalkResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-        $data   = $thsi->convertDataToArray($data);
+        $data   = $this->convertDataToArray($data);
         $result = $this->mapper->updateTalk($id, $data);
         if (! $result) {
             return new ApiProblem(404, 'The talk ID specified does not exist');

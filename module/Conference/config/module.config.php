@@ -94,7 +94,9 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
+            'Conference\\V1\\Rest\\Speaker\\SpeakerMapper' => 'Conference\\V1\\Rest\\Speaker\\SpeakerMapperFactory',
             'Conference\\V1\\Rest\\Speaker\\SpeakerResource' => 'Conference\\V1\\Rest\\Speaker\\SpeakerResourceFactory',
+            'Conference\\V1\\Rest\\Talk\\TalkMapper' => 'Conference\\V1\\Rest\\Talk\\TalkMapperFactory',
             'Conference\\V1\\Rest\\Talk\\TalkResource' => 'Conference\\V1\\Rest\\Talk\\TalkResourceFactory',
         ),
     ),

@@ -1,22 +1,21 @@
 <?php
 namespace Conference\V1\Rest\Talk;
 
+use Conference\V1\Rest\Speaker\SpeakerMapper;
 use Exception;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Paginator\Adapter\DbTableGateway;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Db\Sql\Sql;
-use Conference\V1\Rest\Speaker\SpeakerEntity;
-use Conference\V1\Rest\Speaker\SpeakerCollection;
-use Zend\Stdlib\Hydrator\ArraySerializable;
+use Zend\Paginator\Adapter\DbTableGateway;
 
 class TalkMapper
 {
+    protected $speakerMapper;
     protected $table;
 
-    public function __construct(TableGateway $table)
+    public function __construct(TableGateway $table, SpeakerMapper $speakerMapper)
     {
-        $this->table = $table;
+        $this->table         = $table;
+        $this->speakerMapper = $speakerMapper;
     }
 
     public function getAllTalks()
@@ -25,27 +24,28 @@ class TalkMapper
         return new TalkCollection($dbTableGatewayAdapter);
     }
 
+    public function getTalksBySpeaker($speakerId)
+    {
+        $sql    = $this->table->getSql();
+        $select = $sql->select();
+        $select
+            ->from('talks')
+            ->join('talks_speakers', 'talks_speakers.talk_id = talks.id')
+            ->where(['talks_speakers.speaker_id' => $speakerId]);
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->table->adapter,
+            $this->table->getResultSetPrototype()
+        );
+        return new TalkCollection($paginatorAdapter);
+    }
+
     public function getTalk($talkId)
     {
         $rowset = $this->table->select(['id' => $talkId]);
         $talk   = $rowset->current();
-
-        // get the spakers from the talks_speakers table
-        $sql = new Sql($this->table->adapter);
-        $select = $sql->select();
-        $select
-            ->from('speakers')
-            ->join('talks_speakers', 'talks_speakers.speaker_id = speakers.id')
-            ->where(['talks_speakers.talk_id' => $talkId]);
-
-        // build the SpeakerCollection based on $select
-        $resultSet = new HydratingResultSet(
-            new ArraySerializable(),
-            new SpeakerEntity()
-        );
-        $paginatorAdapter = new DbSelect($select, $this->table->adapter, $resultSet);
-        $talk->speakers = new SpeakerCollection($paginatorAdapter);
-
+        $talk->speakers = $this->speakerMapper->getSpeakersByTalk($talkId);
         return $talk;
     }
 

@@ -7,7 +7,7 @@ use Zend\Paginator\Adapter\DbTableGateway;
 
 class SpeakerMapper
 {
-    protected $adapter;
+    protected $table;
 
     public function __construct(TableGateway $table)
     {

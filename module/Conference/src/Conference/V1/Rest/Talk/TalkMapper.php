@@ -7,7 +7,7 @@ use Zend\Paginator\Adapter\DbTableGateway;
 
 class TalkMapper
 {
-    protected $adapter;
+    protected $table;
 
     public function __construct(TableGateway $table)
     {

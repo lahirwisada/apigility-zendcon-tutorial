@@ -30,7 +30,7 @@ class SpeakerResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        $data   = $this->convertDataToArray($data);
+        $data   = $this->getInputFilter()->getValues();
         $result = $this->mapper->addSpeaker($data);
         if (! $result) {
             return new ApiProblem(422, 'I cannot create a new speaker');
@@ -95,7 +95,7 @@ class SpeakerResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-        $data   = $this->convertDataToArray($data);
+        $data   = $this->getInputFilter()->getValues();
         $result = $this->mapper->updateSpeaker($id, $data);
         if (! $result) {
             return new ApiProblem(404, 'The speaker ID specified does not exist');
@@ -125,29 +125,5 @@ class SpeakerResource extends AbstractResourceListener
     public function update($id, $data)
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
-    }
-
-    private function convertDataToArray($data)
-    {
-        if (is_array($data)) {
-            return $data;
-        }
-
-        if ($data instanceof Traversable) {
-            return iterator_to_array($data);
-        }
-
-        if (! is_object($data)) {
-            return [];
-        }
-
-        $keys = ['id', 'name', 'title', 'company', 'url_company', 'twitter'];
-        $copy = [];
-        foreach ($keys as $key) {
-            if (isset($data->{$key})) {
-                $copy[$key] = $data->{$key};
-            }
-        }
-        return $copy;
     }
 }

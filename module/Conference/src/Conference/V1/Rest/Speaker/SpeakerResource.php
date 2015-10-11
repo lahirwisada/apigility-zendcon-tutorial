@@ -29,9 +29,10 @@ class SpeakerResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        $data   = $this->convertDataToArray($data);
         $result = $this->mapper->addSpeaker($data);
         if (!$result) {
-          return new ApiProblem(422, 'I cannot create a new speaker');
+            return new ApiProblem(422, 'I cannot create a new speaker');
         }
         return $result;
     }
@@ -45,8 +46,8 @@ class SpeakerResource extends AbstractResourceListener
     public function delete($id)
     {
         $result = $this->mapper->deleteSpeaker($id);
-        if (!$result) {
-          return new ApiProblem(404, 'The speaker ID specified doesn\'t exist');
+        if (! $result) {
+            return new ApiProblem(404, 'The speaker ID specified does not exist');
         }
         return true;
     }
@@ -79,9 +80,9 @@ class SpeakerResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params = [])
     {
-        return $this->mapper->getAllSpeaker();
+        return $this->mapper->getAllSpeakers();
     }
 
     /**
@@ -93,11 +94,13 @@ class SpeakerResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-         $result = $this->mapper->updateSpeaker($id, $data);
-         if (!$result) {
-           return new ApiProblem(404, 'The speaker ID specified doesn\'t exist');
-         }
-         return $result;
+        $data   = $this->convertDataToArray($data);
+        $result = $this->mapper->updateSpeaker($id, $data);
+        if (! $result) {
+            return new ApiProblem(404, 'The speaker ID specified does not exist');
+        }
+
+        return $result;
     }
 
     /**
@@ -122,4 +125,28 @@ class SpeakerResource extends AbstractResourceListener
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
-  }
+
+    private function convertDataToArray($data)
+    {
+        if (is_array($data)) {
+            return $data;
+        }
+
+        if ($data instanceof Traversable) {
+            return iterator_to_array($data);
+        }
+
+        if (! is_object($data)) {
+            return [];
+        }
+
+        $keys = ['id', 'name', 'title', 'company', 'url_company', 'twitter'];
+        $copy = [];
+        foreach ($keys as $key) {
+            if (isset($data->{$key})) {
+                $copy[$key] = $data->{$key};
+            }
+        }
+        return $copy;
+    }
+}

@@ -1,6 +1,7 @@
 <?php
 namespace Conference\V1\Rest\Talk;
 
+use Traversable;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
@@ -26,9 +27,10 @@ class TalkResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        $data   = $this->convertDataToArray($data);
         $result = $this->mapper->addTalk($data);
-        if (!$result) {
-          return new ApiProblem(422, 'I cannot create a new talk');
+        if (! $result) {
+            return new ApiProblem(422, 'I cannot create a new talk');
         }
         return $result;
     }
@@ -42,8 +44,8 @@ class TalkResource extends AbstractResourceListener
     public function delete($id)
     {
         $result = $this->mapper->deleteTalk($id);
-        if (!$result) {
-          return new ApiProblem(404, 'The talk ID specified doesn\'t exist');
+        if (! $result) {
+            return new ApiProblem(404, 'The talk ID specified does not exist');
         }
         return true;
     }
@@ -76,9 +78,9 @@ class TalkResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params = [])
     {
-        return $this->mapper->getAllTalk();
+        return $this->mapper->getAllTalks();
     }
 
     /**
@@ -90,9 +92,10 @@ class TalkResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
+        $data   = $thsi->convertDataToArray($data);
         $result = $this->mapper->updateTalk($id, $data);
-        if (!$result) {
-          return new ApiProblem(404, 'The talk ID specified doesn\'t exist');
+        if (! $result) {
+            return new ApiProblem(404, 'The talk ID specified does not exist');
         }
         return $result;
     }
@@ -118,5 +121,31 @@ class TalkResource extends AbstractResourceListener
     public function update($id, $data)
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+    }
+
+    private function convertDataToArray($data)
+    {
+        if (is_array($data)) {
+            return $data;
+        }
+
+        if ($data instanceof Traversable) {
+            return $data;
+        }
+
+        if (is_scalar($data)) {
+            return [];
+        }
+
+        $keys = ['id', 'title', 'abstract', 'day', 'start_time', 'end_time'];
+        $copy = [];
+
+        foreach ($keys as $key) {
+            if (isset($data->{$key})) {
+                $copy[$key] = $data->{$key};
+            }
+        }
+
+        return $copy;
     }
 }

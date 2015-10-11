@@ -1,92 +1,65 @@
 <?php
 namespace Conference\V1\Rest\Speaker;
 
-use Zend\Db\Adapter\AdapterInterface;
+use Exception;
+use Traversable;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Adapter\DbTableGateway;
-use Zend\Paginator\Paginator;
-
 
 class SpeakerMapper
 {
     protected $adapter;
 
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(TableGateway $table)
     {
-        $resultSet = new HydratingResultSet();
-        $resultSet->setObjectPrototype(new SpeakerEntity());
-        $this->table = new TableGateway('speakers', $adapter, null, $resultSet);
+        $this->table = $table;
     }
 
-    public function getAllSpeaker()
+    public function getAllSpeakers()
     {
         $dbTableGatewayAdapter = new DbTableGateway($this->table);
-        $paginator = new Paginator($dbTableGatewayAdapter);
-        return $paginator;
+        return new SpeakerCollection($dbTableGatewayAdapter);
     }
 
     public function getSpeaker($speakerId)
     {
-        $rowset = $this->table->select(array('id' => $speakerId));
+        $rowset = $this->table->select(['id' => $speakerId]);
         return $rowset->current();
     }
 
-    public function addSpeaker($speaker)
+    public function addSpeaker(array $speaker)
     {
-        $data = $this->getArray($speaker);
         try {
-          $this->table->insert($data);
-        } catch (\Exception $e) {
-          return false;
+            $this->table->insert($speaker);
+        } catch (Exception $e) {
+            return false;
         }
-        $rowset = $this->table->select(array('id' => $this->table->lastInsertValue));
+
+        $rowset = $this->table->select(['id' => $this->table->lastInsertValue]);
+
         return $rowset->current();
     }
 
-    public function updateSpeaker($id, $speaker)
+    public function updateSpeaker($id, array $speaker)
     {
-      $data = $this->getArray($speaker);
-      try {
-        $this->table->update($data, array('id' => $id));
-      } catch (\Exception $e) {
-        return false;
-      }
-      $rowset = $this->table->select(array('id' => $id));
-      return $rowset->current();
+        try {
+            $this->table->update($data, ['id' => $id]);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        $rowset = $this->table->select(['id' => $id]);
+        return $rowset->current();
     }
 
     public function deleteSpeaker($id)
     {
-      try {
-        $result = $this->table->delete(array('id' => $id));
-      } catch (\Exception $e) {
-        return false;
-      }
-      return ($result > 0);
-    }
-
-    protected function getArray($object)
-    {
-      $data = array();
-      if (isset($object->id)) {
-        $data['id'] = $object->id;
-      }
-      if (isset($object->name)) {
-        $data['name'] = $object->name;
-      }
-      if (isset($object->title)) {
-        $data['title'] = $object->title;
-      }
-      if (isset($object->company)) {
-        $data['company'] = $object->company;
-      }
-      if (isset($object->url_company)) {
-        $data['url_company'] = $object->url_company;
-      }
-      if (isset($object->twitter)) {
-        $data['twitter'] = $object->twitter;
-      }
-      return $data;
+        try {
+            $result = $this->table->delete(['id' => $id]);
+        } catch (Exception $e) {
+            return false;
+        }
+        return ($result > 0);
     }
 }

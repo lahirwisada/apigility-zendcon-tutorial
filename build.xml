@@ -22,7 +22,9 @@
     </target>
 
     <target name="install-dependencies" depends="clean">
-        <composer command="install -n" composer="${composer.bin}" />
+        <composer command="install" composer="${composer.bin}">
+            <arg value="-n" />
+        </composer>
     </target>
 
     <target name="development" depends="install-dependencies">

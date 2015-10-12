@@ -2,12 +2,12 @@
 ## at ZendCon 2015 - Las Vegas (NV)
 
 This is the hands-on part of the *Develop RESTful API in PHP using Apigility*
-workshop presented by [Matthew Weier O'Phinney](https://mwop.net) and
-[Julien Guittard](http://julien.guittard.io) at the
+workshop presented by [Julien Guittard](http://julien.guittard.io) and
+[Matthew Weier O'Phinney](https://mwop.net) at the
 [ZendCon 2015](http://zendcon.com/) conference in Las Vegas (NV).
 
 The (in-progress) slides for the workshop are 
-[available online](http://www.zimuel.it/slides/phpsummer2015)
+[available online](http://weierophinney.github.io/apigility-zendcon-slides/)
 
 ## Prerequisites
 
@@ -80,4 +80,4 @@ cd /vagrant && phing init
 Open your browser at [http://localhost:8888](http://localhost:8888) and start
 using Apigility!
 
-Now get started on the [first exercise of the workshop](http://www.zimuel.it/slides/phpsummer2015/#/26).
+Now get started on the [first exercise of the workshop](http://weierophinney.github.io/apigility-zendcon-slides/#/26).

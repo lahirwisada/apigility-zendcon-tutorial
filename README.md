@@ -80,4 +80,4 @@ cd /vagrant && phing init
 Open your browser at [http://localhost:8888](http://localhost:8888) and start
 using Apigility!
 
-Now get started on the [first exercise of the workshop](http://weierophinney.github.io/apigility-zendcon-slides/#/26).
+Now get started on the [first exercise of the workshop](http://weierophinney.github.io/apigility-zendcon-slides/#/29).

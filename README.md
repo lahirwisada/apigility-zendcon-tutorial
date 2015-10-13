@@ -27,6 +27,13 @@ The (in-progress) slides for the workshop are
   $ gem install berkshelf
   ```
 
+  Depending on how you have ruby and rubygems installed, you may have to do this
+  as root:
+
+  ```bash
+  $ sudo gem install berkshelf
+  ```
+
 - Install the following Vagrant plugins:
 
   ```bash
@@ -55,26 +62,46 @@ The (in-progress) slides for the workshop are
 > version of Ruby is not recent enough. Make sure you have a Ruby v2 installed,
 > and check for a `gem2`, `gem2.1`, or similarly named executable on your path,
 > and use that in place of `gem` in the above instructions.
+>
+> If you do not see a `get2` or similar, this may be an indication that you need
+> to install a v2 version of Ruby. Check to see if one is available in your
+> distribution package repository.
 
 ## Installation
 
 CD to your project folder and launch Vagrant: 
 
 ```sh 
-vagrant up
+$ vagrant up
 ```
 
 Once te box is setup and provisioned, login in via ssh:
 
 ```bash 
-vagrant ssh
+$ vagrant ssh
 ```
 
 Your project folder is synchronised with the `/vagrant` folder in the virtual
 machine. CD to this folder and launch Phing:
 
 ```bash 
-cd /vagrant && phing init
+$ cd /vagrant && phing init
+```
+
+> Sometimes this will error, due to hitting API rate limits on GitHub. If this
+> occurs, try running:
+>
+> ```bash
+> $ /usr/local/bin/composer install
+> ```
+>
+> Using this directly will give you information on setting up a GitHub token,
+> and prompt you for its sha1, allowing the install to proceed normally.
+
+Next, set the application into development mode:
+
+```bash
+$ cd /vagrant && php public/index.php development enable
 ```
 
 Open your browser at [http://localhost:8888](http://localhost:8888) and start

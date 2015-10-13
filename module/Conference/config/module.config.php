@@ -188,23 +188,13 @@ return array(
                 'filters' => array(),
                 'name' => 'name',
                 'description' => 'The name of the speaker',
-                'error_message' => 'You miss the name of the speaker',
             ),
             1 => array(
                 'required' => true,
                 'validators' => array(),
                 'filters' => array(),
-                'name' => 'title',
-                'description' => 'The job title of the speaker',
-                'error_message' => 'You miss the job title of the speaker',
-            ),
-            2 => array(
-                'required' => true,
-                'validators' => array(),
-                'filters' => array(),
-                'name' => 'company',
-                'description' => 'The company of the speaker',
-                'error_message' => 'You miss the company of the speaker',
+                'name' => 'url',
+                'description' => 'The URL of the speaker speaker profile',
             ),
         ),
         'Conference\\V1\\Rest\\Talk\\Validator' => array(
@@ -214,7 +204,6 @@ return array(
                 'filters' => array(),
                 'name' => 'title',
                 'description' => 'The title of the talk',
-                'error_message' => 'You miss the title of the talk',
             ),
             1 => array(
                 'required' => true,
